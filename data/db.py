@@ -12,12 +12,14 @@ def setup_vector_store(pdf_path):
     )
     chunks = text_splitter.split_documents(documents)
     embeddings = HuggingFaceEmbeddings(
-        model_name = 'sentence_transformer/all-mpnet-base-v2'
+        model_name = 'sentence-transformers/all-mpnet-base-v2',
+        cache_folder = './embeddings'
     )
     vector_db = FAISS.from_documents(
         chunks, embeddings
     )
+    return vector_db
 
 def get_local_content(vector_db, query):
-    docs = vector_db.similart_search(query, k=5)
+    docs = vector_db.similarity_search(query, k=5)
     return ' '.join([doc.page_content for doc in docs])

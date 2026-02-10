@@ -12,7 +12,7 @@ Gemini_API = os.environ.get('Gemini_API')
 Serper_API = os.environ.get('Serper_API')
 
 llm = ChatGroq(
-    model = 'llama-3.3-70b-specdec',
+    model = 'llama-3.3-70b-versatile',
     temperature= 0,
     max_tokens= 500,
     timeout= None,
@@ -37,11 +37,13 @@ def get_final_answer(context, query):
     return response.content
 
 def process_query(query, vector_db, local_context):
-    can_answer_locally = check_local_knowledge(query=query, context=local_context, llm=crew_llm)
-    if can_answer_locally:
-        context = get_local_content(vector_db, query)
-    else : 
-        context = get_web_content(query)
+    # can_answer_locally = check_local_knowledge(query=query, context=local_context, llm=llm)
+    # if can_answer_locally:
+    #     context = get_local_content(vector_db, query)
+    # else : 
+    #     context = get_web_content(query, llm=crew_llm)
+    # For now, only use local content
+    context = get_local_content(vector_db, query)
     return get_final_answer(context, query)
 
 def main(): 

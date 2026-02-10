@@ -2,3 +2,5 @@
 *.pdf
 
 *.excalidraw
+
+embeddings/
